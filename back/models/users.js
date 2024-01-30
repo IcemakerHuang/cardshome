@@ -59,4 +59,23 @@ const schema = new Schema({
   versionKey: false // 為了避免 __v 這個欄位被加入到資料庫中
 })
 
+// schema.pre() 的存在意義
+// schema.pre('save', function (next) {}) 是在保存文檔到 MongoDB 數據庫之前先執行的函數。
+// function (next) {} 是一個回調函數，完成操作後需調用 next() 以繼續保存文檔。
+// 這種模式常用於保存文檔前(save)的操作，如密碼雜湊或數據驗證。
+schema.pre('save', function (next) {
+  const user = this
+  if (user.isModified('password')) {
+    if (user.password.length < 4 || user.password.length > 20) {
+      const error = new Error.ValidationError(null)
+      error.addError('password', new Error.ValidatorError({ message: '密碼長度不符' }))
+      next(error)
+      return
+    } else {
+      user.password = bcrypt.hashSync(user.password, 10)
+    }
+  }
+  next()
+})
+
 export default model('users', schema)
