@@ -13,7 +13,7 @@ VAppBar(color="primary")
     VBtn(to="/" :active="false")
       VAppBarTitle 購物網
     VSpacer
-    //- 手機板導覽列
+    //- 手機板導覽列:漢堡選單
     template(v-if="isMobile")
       VAppBarNavIcon(@click="drawer = true")
     //- 電腦版導覽列
@@ -29,7 +29,7 @@ VMain
 import { useDisplay } from 'vuetify'
 import { ref, computed } from 'vue'
 
-// 手機版判斷
+// 手機版判斷:目前頁面的大小、是否為手機版的斷點
 const { mobile } = useDisplay()
 const isMobile = computed(() => mobile.value)
 

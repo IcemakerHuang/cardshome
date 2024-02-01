@@ -40,7 +40,6 @@ app.use((_, req, res, next) => {
   })
 })
 
-
 app.use('/users', routeUsers)
 
 // 所有的請求方式都不符合以上的路由時，就會執行這個路由
