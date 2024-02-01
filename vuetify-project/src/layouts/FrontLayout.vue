@@ -1,40 +1,55 @@
-<template lang="pug">
-//- 手機版側欄
-VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
-  VList(nav)
-    template(v-for="item in navItems" :key="item.to")
-      VListItem(:to="item.to")
-        template(#prepend)
-          VIcon(:icon="item.icon")
-        VListItemTitle {{ item.text }}
-//- 導覽列
-VAppBar(color="primary")
-  VContainer.d-flex.align-center
-    VBtn(to="/" :active="false")
-      VAppBarTitle 購物網
-    VSpacer
-    //- 手機板導覽列:漢堡選單
-    template(v-if="isMobile")
-      VAppBarNavIcon(@click="drawer = true")
-    //- 電腦版導覽列
-    template(v-else)
-      template(v-for="item in navItems" :key="item.to")
-        VBtn(:to="item.to" :prepend-icon="item.icon") {{ item.text }}
-//- 頁面內容
-VMain
-  RouterView
+<template>
+<!-- 導覽列 -->
+<VAppBar color="primary">
+  <VContainer class="d-flex align-center">
+    <VBtn to="/" :active="false">
+      <VAppBarTitle>購物網</VAppBarTitle>
+    </VBtn>
+  </VContainer>
+
+  <VSpacer></VSpacer>
+  <!-- 電腦版導覽列 -->
+    <template v-for="item in navItems" :key="item.to">
+      <VBtn :to="item.to" :prepend-icon="item.icon">{{ item.text }}
+        <v-dialog
+        v-model="dialog"
+        activator="parent"
+        width="auto"
+      >
+        <v-card min-width="800">
+          <v-tabs
+            v-model="tab"
+            bg-color="primary"
+          >
+            <v-tab value="one">登入</v-tab>
+            <v-tab value="two">註冊</v-tab>
+          </v-tabs>
+
+          <VCardText>
+            <VWindow v-model="tab">
+          <Register></Register>
+          <Login></Login>
+            </VWindow>
+          </VCardText>
+          <v-card-actions>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      </VBtn>
+    </template>
+</VAppBar>
+  <!-- 頁面內容 -->
+<VMain>
+  <RouterView></RouterView>
+</VMain>
 </template>
 
 <script setup>
-import { useDisplay } from 'vuetify'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import Register from '@/components/UserRegister.vue'
+import Login from '@/components/UserLogin.vue'
 
-// 手機版判斷:目前頁面的大小、是否為手機版的斷點
-const { mobile } = useDisplay()
-const isMobile = computed(() => mobile.value)
-
-// 手機版惻欄開關
-const drawer = ref(false)
+const tab = ref('one')
 
 // 導覽列項目
 const navItems = [

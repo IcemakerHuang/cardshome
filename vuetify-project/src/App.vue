@@ -1,4 +1,5 @@
-<template lang="pug">
-VApp
-  RouterView
+<template>
+<VApp>
+  <router-view></router-view>
+</VApp>
 </template>

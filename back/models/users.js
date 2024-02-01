@@ -44,6 +44,17 @@ const schema = new Schema({
     type: String,
     required: [true, '缺少使用者密碼']
   },
+  phone:{
+    type: String,
+    required: [true, '缺少使用者電話'],
+    unique: true,
+    validate: {
+      validator (value) {
+        return validator.isMobilePhone(value, 'zh-TW')
+      },
+      message: '使用者電話格式錯誤'
+    }
+  },
   tokens: {
     type: [String]
   },
