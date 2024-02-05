@@ -3,10 +3,20 @@
 <VAppBar color="primary">
   <VContainer class="d-flex align-center">
     <VBtn to="/" :active="false">
-      <VAppBarTitle>購物網</VAppBarTitle>
+      <VAppBarTitle>卡底家</VAppBarTitle>
     </VBtn>
   </VContainer>
-
+  <VContainer class="d-flex flex-row-reverse">
+    <VBtn to="/" :active="false">
+      <VAppBarTitle>論壇</VAppBarTitle>
+    </VBtn>
+    <VBtn to="/" :active="false">
+      <VAppBarTitle>認同卡</VAppBarTitle>
+    </VBtn>
+    <VBtn to="/" :active="false">
+      <VAppBarTitle>討論區</VAppBarTitle>
+    </VBtn>
+  </VContainer>
   <VSpacer></VSpacer>
   <!-- 電腦版導覽列 -->
     <template v-for="item in navItems" :key="item.to">
@@ -16,7 +26,7 @@
         activator="parent"
         width="auto"
       >
-        <v-card min-width="800">
+        <v-card min-width="600">
           <v-tabs
             v-model="tab"
             bg-color="primary"
@@ -53,7 +63,7 @@ const tab = ref('one')
 
 // 導覽列項目
 const navItems = [
-  { to: '/register', text: '註冊', icon: 'mdi-account-plus' },
+  // { to: '/register', text: '註冊', icon: 'mdi-account-plus' },
   { to: '/login', text: '登入', icon: 'mdi-login' }
 ]
 </script>
