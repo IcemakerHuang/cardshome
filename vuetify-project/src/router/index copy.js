@@ -86,7 +86,7 @@ const routes = [
       },
       { // -! add
         path: 'products',
-        name: 'AdminProducts', // 後台商品管理頁
+        name: 'AdminProducts',
         component: () => import('@/views/admin/ProductsView.vue'),
         meta: {
           title: '購物網 | 商品管理',
@@ -96,7 +96,7 @@ const routes = [
       },
       { // -! add
         path: 'orders',
-        name: 'AdminOrders', // 後台商品管理訂單頁
+        name: 'AdminOrders',
         component: () => import('@/views/admin/OrdersView.vue'),
         meta: {
           title: '購物網 | 訂單管理',

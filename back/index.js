@@ -8,6 +8,10 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import routeUsers from './routes/users.js'
+// -! 1/18 前後端整合-不一定使用(+2)
+import routeProducts from './routes/products.js' // 引入處理商品相關的請求的對應處理路由
+import routeOrders from './routes/orders.js'
+
 import { StatusCodes } from 'http-status-codes'
 import './passport/passport.js'
 
@@ -41,6 +45,9 @@ app.use((_, req, res, next) => {
 })
 
 app.use('/users', routeUsers)
+// -! 應該是購物車(+2)
+app.use('/products', routeProducts) // 為了讓前端能夠訪問到這個路由，你需要在 index.js 中導入這個路由(import)並使用 app.use() 方法。
+app.use('/orders', routeOrders)
 
 // 所有的請求方式都不符合以上的路由時，就會執行這個路由
 app.all('*', (req, res) => {

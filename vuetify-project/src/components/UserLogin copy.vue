@@ -30,20 +30,13 @@
 <script setup>
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
+import { api } from '@/plugins/axios'
 import { useRouter } from 'vue-router'
 import { useSnackbar } from 'vuetify-use-dialog'
-// import { api } from '@/plugins/axios' // 1/3 原始axios (非組合式 composables)
-import { useApi } from '@/composables/axios'
-import { useUserStore } from '@/store/user' // add
 import { ref } from 'vue'
-
-const { api } = useApi() // 組合式 axios
 
 const router = useRouter()
 const createSnackbar = useSnackbar()
-
-// add
-const user = useUserStore()
 
 const show3 = ref(false)
 
@@ -68,45 +61,12 @@ const { handleSubmit, isSubmitting } = useForm({
 const account = useField('account')
 const password = useField('password')
 
-// 修改前
-// const submit = handleSubmit(async (values) => {
-//   try {
-//     await api.post('/users/login', {
-//       account: values.account,
-//       password: values.password
-//     })
-//     createSnackbar({
-//       text: '登入成功',
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'green',
-//         location: 'bottom'
-//       }
-//     })
-//     router.push('/')
-//   } catch (error) {
-//     console.log(error)
-//     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
-//     createSnackbar({
-//       text,
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'red',
-//         location: 'bottom'
-//       }
-//     })
-//   }
-// })
-
 const submit = handleSubmit(async (values) => {
   try {
-    const { data } = await api.post('/users/login', {
+    await api.post('/users/login', {
       account: values.account,
       password: values.password
     })
-    user.login(data.result)
     createSnackbar({
       text: '登入成功',
       showCloseButton: false,

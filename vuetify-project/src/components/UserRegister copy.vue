@@ -1,73 +1,67 @@
 <template>
   <VWindowItem value="two">
-  <VRow>
+   <VRow>
     <VCol cols="12">
-    <VForm :disabled="isSubmitting" @submit.prevent="submit">
-      <VTextField
-        label="帳號"
-        minlength="4" maxlength="20" counter
-        prepend-inner-icon="mdi-account"
-        append-icon="none"
-        v-model="account.value.value"
-        :error-messages="account.errorMessage.value"
-      ></VTextField>
-      <VTextField
-        label="信箱" type="email"
-        prepend-inner-icon="mdi-email"
-        append-icon="none"
-        v-model="email.value.value"
-        :error-messages="email.errorMessage.value"
-      ></VTextField>
-      <VTextField
-        label="手機號碼"
-        prepend-inner-icon="mdi-phone"
-        append-icon="none"
-        v-model="phone.value.value"
-        :error-messages="phone.errorMessage.value"
-      ></VTextField>
-      <VTextField
-        label="密碼" :type="show2 ? 'text' : 'password'"
-        prepend-inner-icon="mdi-lock"
-        minlength="4" maxlength="20" counter
-        v-model="password.value.value"
-        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="show2 = !show2"
-        :error-messages="password.errorMessage.value"
-      ></VTextField>
-      <VTextField
-        label="確認密碼" :type="show1 ? 'text' : 'password'"
-        prepend-inner-icon="mdi-check"
-        minlength="4" maxlength="20" counter
-        v-model="passwordConfirm.value.value"
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="show1 = !show1"
-        :error-messages="passwordConfirm.errorMessage.value"
-      ></VTextField>
-      <VBtn type="submit" color="blue">註冊</VBtn>
-    </VForm>
-  </VCol>
-</VRow>
-</VWindowItem>
+     <VForm :disabled="isSubmitting" @submit.prevent="submit">
+       <VTextField
+       label="帳號"
+       minlength="4" maxlength="20" counter
+       prepend-inner-icon="mdi-account"
+       append-icon="none"
+       v-model="account.value.value"
+       :error-messages="account.errorMessage.value"
+       ></VTextField>
+       <VTextField
+       label="信箱" type="email"
+       prepend-inner-icon="mdi-email"
+       append-icon="none"
+       v-model="email.value.value"
+       :error-messages="email.errorMessage.value"
+       ></VTextField>
+       <VTextField
+       label="手機號碼"
+       prepend-inner-icon="mdi-phone"
+       append-icon="none"
+       v-model="phone.value.value"
+       :error-messages="phone.errorMessage.value"
+       ></VTextField>
+       <VTextField
+       label="密碼" :type="show2 ? 'text' : 'password'"
+       prepend-inner-icon="mdi-lock"
+       minlength="4" maxlength="20" counter
+       v-model="password.value.value"
+       :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+       @click:append="show2 = !show2"
+       :error-messages="password.errorMessage.value"
+       ></VTextField>
+       <VTextField
+       label="確認密碼" :type="show1 ? 'text' : 'password'"
+       prepend-inner-icon="mdi-check"
+       minlength="4" maxlength="20" counter
+       v-model="passwordConfirm.value.value"
+       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+       @click:append="show1 = !show1"
+       :error-messages="passwordConfirm.errorMessage.value"
+       ></VTextField>
+       <VBtn type="submit" color="blue">註冊</VBtn>
+     </VForm>
+   </VCol>
+ </VRow>
+ </VWindowItem>
 </template>
 
 <script setup>
 import validator from 'validator'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
+import { api } from '@/plugins/axios'
 import { useRouter } from 'vue-router'
 import { useSnackbar } from 'vuetify-use-dialog'
-// import { api } from '@/plugins/axios' // 1/3 原始axios (非組合式 composables)
-import { useApi } from '@/composables/axios'
-
-// 可能是頁籤？
 import { ref } from 'vue'
-
-const { api } = useApi() // add
 
 const router = useRouter()
 const createSnackbar = useSnackbar()
 
-// 可能是頁籤？
 const show1 = ref(false)
 const show2 = ref(false)
 
@@ -88,7 +82,7 @@ const schema = yup.object({
         return validator.isEmail(value)
       }
     ),
-  phone: yup // 平 add
+  phone: yup
     .string()
     .required('手機號碼必填')
     .test('isMobilePhone', '格式錯誤',
@@ -117,7 +111,7 @@ const { handleSubmit, isSubmitting } = useForm({
 
 const account = useField('account')
 const email = useField('email')
-const phone = useField('phone') // 平 add
+const phone = useField('phone')
 const password = useField('password')
 const passwordConfirm = useField('passwordConfirm')
 

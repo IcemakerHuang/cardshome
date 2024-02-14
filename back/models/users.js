@@ -44,7 +44,7 @@ const schema = new Schema({
     type: String,
     required: [true, '缺少使用者密碼']
   },
-  phone:{
+  phone: { // 平的電話版本而新增
     type: String,
     required: [true, '缺少使用者電話'],
     unique: true,
@@ -90,3 +90,12 @@ schema.pre('save', function (next) {
 })
 
 export default model('users', schema)
+
+// -!1/18 前後端整合-不一定使用
+// 可能用途：為了讓前端能夠知道購物車內商品的數量
+schema.virtual('cartQuantity')
+  .get(function () {
+    return this.cart.reduce((total, current) => {
+      return total + current.quantity
+    }, 0)
+  })
